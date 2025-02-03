@@ -5,6 +5,20 @@ services:
       - .:/django
     ports:
       - 8000:8000
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379/0
     image: app:django
     container_name: django_container2
     command: python manage.py runserver 0.0.0.0:8000
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:
